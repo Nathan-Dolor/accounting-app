@@ -8,6 +8,11 @@ export default function Accounts() {
     const [accounts, setAccounts] = useState<AccountBalance[]>([])
     const [selectedAccount, setSelectedAccount] = useState<AccountBalance | null>(null)
 
+    const [showAddAccount, setShowAddAccount] = useState(false)
+    const [newAccountName, setNewAccountName] = useState("")
+    const [newAccountNumber, setNewAccountNumber] = useState("")
+
+
     useEffect(() => {
         fetchAccounts()
     }, [])
@@ -24,6 +29,29 @@ export default function Accounts() {
 
         setAccounts(data ?? [])
     }
+
+    async function addAccount(e: React.FormEvent) {
+        e.preventDefault()
+
+        if (!newAccountName || !newAccountNumber) return
+
+        const { error } = await supabase.from("accounts").insert({
+            name: newAccountName,
+            account_number: newAccountNumber
+        })
+
+        if (error) {
+            console.error("Add account failed:", error)
+            return
+        }
+
+        setNewAccountName("")
+        setNewAccountNumber("")
+        setShowAddAccount(false)
+
+        fetchAccounts() // refresh list
+    }
+
 
     async function refreshBalances() {
         const { data, error } = await supabase
@@ -47,6 +75,41 @@ export default function Accounts() {
             {/* Accounts List */}
             <div style={{ width: "260px" }}>
                 <h3>Accounts</h3>
+
+                <div style={{ marginBottom: "10px" }}>
+                <button onClick={() => setShowAddAccount(!showAddAccount)}>
+                    ➕ Add Account
+                </button>
+                </div>
+
+                {showAddAccount && (
+                <form onSubmit={addAccount} style={{ marginBottom: "15px" }}>
+                    <input
+                    placeholder="Account Name"
+                    value={newAccountName}
+                    onChange={e => setNewAccountName(e.target.value)}
+                    required
+                    />
+
+                    <input
+                    placeholder="Account Number"
+                    value={newAccountNumber}
+                    onChange={e => setNewAccountNumber(e.target.value)}
+                    required
+                    />
+
+                    <div style={{ marginTop: "6px" }}>
+                    <button type="submit">Save</button>
+                    <button
+                        type="button"
+                        onClick={() => setShowAddAccount(false)}
+                        style={{ marginLeft: "8px" }}
+                    >
+                        Cancel
+                    </button>
+                    </div>
+                </form>
+                )}
 
                 {accounts.map(account => (
                     <div
@@ -83,7 +146,7 @@ export default function Accounts() {
             </div>
 
             <div style={{ flex: 1 }}>
-                <h2>Single Account Transactions</h2>
+                <h2>Account Transactions</h2>
                 {selectedAccount ? (
                     <Transactions
                         account={selectedAccount}
