@@ -1,6 +1,7 @@
 export type Account = {
   id: string
   name: string
+  account_number: string
   description: string | null
   created_at: string
 }
@@ -20,9 +21,11 @@ export type AccountBalance = {
   name: string
   description: string | null
   balance: number
+  account_number: string
 }
 
 export type AccountRef = {
   id: string
   name: string
+  account_number: string
 }

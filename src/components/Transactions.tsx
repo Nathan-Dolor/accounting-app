@@ -77,7 +77,7 @@ export default function Transactions({ account, onTransactionAdded }: Props) {
 
   return (
     <div>
-      <h2>{account.name}</h2>
+      <h2>{account.name} acc#: {account.account_number}</h2>
 
       {/* Add Transaction */}
       <form onSubmit={addTransaction} style={{ marginBottom: "15px" }}>
