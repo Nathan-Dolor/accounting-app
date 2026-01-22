@@ -21,6 +21,7 @@ export default function Accounts() {
         const { data, error } = await supabase
             .from("account_balances")
             .select("*")
+            .order("name", { ascending: true })
 
         if (error) {
             console.error("Accounts error:", error)
