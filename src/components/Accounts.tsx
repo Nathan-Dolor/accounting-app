@@ -79,44 +79,57 @@ export default function Accounts() {
 
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div
+            style={{
+                display: "flex",
+                gap: "20px",
+                height: "100%",
+                overflow: "hidden"
+            }}
+        >
             {/* Accounts List */}
-            <div style={{ width: "260px" }}>
+            <div
+                style={{
+                    width: "260px",
+                    overflowY: "auto",
+                    height: "100%"
+                }}
+            >
                 <h3>Accounts</h3>
 
                 <div style={{ marginBottom: "10px" }}>
-                <button onClick={() => setShowAddAccount(!showAddAccount)}>
-                    ➕ Add Account
-                </button>
+                    <button onClick={() => setShowAddAccount(!showAddAccount)}>
+                        ➕ Add Account
+                    </button>
                 </div>
 
                 {showAddAccount && (
-                <form onSubmit={addAccount} style={{ marginBottom: "15px" }}>
-                    <input
-                    placeholder="Account Name"
-                    value={newAccountName}
-                    onChange={e => setNewAccountName(e.target.value)}
-                    required
-                    />
+                    <form onSubmit={addAccount} style={{ marginBottom: "15px" }}>
+                        <input
+                            placeholder="Account Name"
+                            value={newAccountName}
+                            onChange={e => setNewAccountName(e.target.value)}
+                            required
+                        />
 
-                    <input
-                    placeholder="Account Number"
-                    value={newAccountNumber}
-                    onChange={e => setNewAccountNumber(e.target.value)}
-                    required
-                    />
+                        <input
+                            placeholder="Account Number"
+                            value={newAccountNumber}
+                            onChange={e => setNewAccountNumber(e.target.value)}
+                            required
+                        />
 
-                    <div style={{ marginTop: "6px" }}>
-                    <button type="submit">Save</button>
-                    <button
-                        type="button"
-                        onClick={() => setShowAddAccount(false)}
-                        style={{ marginLeft: "8px" }}
-                    >
-                        Cancel
-                    </button>
-                    </div>
-                </form>
+                        <div style={{ marginTop: "6px" }}>
+                            <button type="submit">Save</button>
+                            <button
+                                type="button"
+                                onClick={() => setShowAddAccount(false)}
+                                style={{ marginLeft: "8px" }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
                 )}
 
                 {accounts.map(account => (
@@ -153,7 +166,13 @@ export default function Accounts() {
                 ))}
             </div>
 
-            <div style={{ flex: 1 }}>
+            <div
+                style={{
+                    overflowY: "auto",
+                    height: "100%"
+                }}
+            >
+
                 <h2>Account Transactions</h2>
                 {selectedAccount ? (
                     <Transactions
