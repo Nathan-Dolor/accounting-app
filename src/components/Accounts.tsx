@@ -28,7 +28,7 @@ export default function Accounts() {
             return
         }
 
-        setAccounts(data ?? [])
+        setAccounts(sortAccounts(data ?? []))
     }
 
     async function addAccount(e: React.FormEvent) {
@@ -58,9 +58,11 @@ export default function Accounts() {
         const { data, error } = await supabase
             .from("account_balances")
             .select("*")
+            .order("name", { ascending: true })
 
         if (!error && data) {
-            setAccounts(data)
+            setAccounts(sortAccounts(data))
+
 
             // keep selected account in sync
             if (selectedAccount) {
@@ -69,6 +71,11 @@ export default function Accounts() {
             }
         }
     }
+
+    function sortAccounts(data: AccountBalance[]) {
+        return [...data].sort((a, b) => a.name.localeCompare(b.name))
+    }
+
 
 
     return (
