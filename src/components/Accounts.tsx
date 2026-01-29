@@ -12,6 +12,13 @@ export default function Accounts() {
     const [newAccountName, setNewAccountName] = useState("")
     const [newAccountNumber, setNewAccountNumber] = useState("")
 
+    const [searchTerm, setSearchTerm] = useState("")
+
+    // Filtered accounts based on search term
+    const filteredAccounts = accounts.filter(account =>
+        account.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
 
     useEffect(() => {
         fetchAccounts()
@@ -98,6 +105,13 @@ export default function Accounts() {
                 <h3>Accounts</h3>
 
                 <div style={{ marginBottom: "10px" }}>
+                    <input
+                        type="text"
+                        placeholder="Search account..."
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                        style={{ width: "90%", padding: "6px", borderRadius: "4px", marginBottom: "10px" }}
+                    />
                     <button onClick={() => setShowAddAccount(!showAddAccount)}>
                         ➕ Add Account
                     </button>
@@ -132,7 +146,7 @@ export default function Accounts() {
                     </form>
                 )}
 
-                {accounts.map(account => (
+                {filteredAccounts.map(account => (
                     <div
                         key={account.id}
                         onClick={() => setSelectedAccount(account)}
@@ -146,7 +160,15 @@ export default function Accounts() {
                         }}
                     >
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                            <strong>{account.name}</strong>
+                            <strong>
+                                {account.name.split(new RegExp(`(${searchTerm})`, "gi")).map((part, i) =>
+                                    part.toLowerCase() === searchTerm.toLowerCase() ? (
+                                    <span key={i} style={{ backgroundColor: "blue" }}>{part}</span>
+                                    ) : (
+                                    part
+                                    )
+                                )}
+                            </strong>
                             <span
                                 style={{
                                     color: account.balance < 0 ? "#ff4d4f" : "#4caf50",
