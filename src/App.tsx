@@ -48,7 +48,7 @@ export default function App() {
             fontSize: "14px"
           }}
         >
-          All Transactions by Day
+          All Transactions
         </button>
       </div>
 
