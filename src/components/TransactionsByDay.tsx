@@ -50,13 +50,23 @@ export default function TransactionsByDay() {
   // Sort dates in descending order
   const sortedDates = Object.keys(groupedByDate).sort().reverse()
 
+  // Full total across all transactions
+  const fullTotal = transactions.reduce((sum, tx) => {
+    return sum + (tx.type === "debit" ? tx.amount : -tx.amount)
+  }, 0)
+
   if (loading) {
     return <div>Loading transactions...</div>
   }
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>All Transactions by Day</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <h2 style={{ margin: 0 }}>All Transactions</h2>
+        <div style={{ fontWeight: "bold", fontSize: "16px", color: fullTotal >= 0 ? "#4caf50" : "#ff4d4f" }}>
+          Total: ${fullTotal.toFixed(2)}
+        </div>
+      </div>
       
       {sortedDates.length === 0 ? (
         <p>No transactions found</p>
@@ -102,7 +112,7 @@ export default function TransactionsByDay() {
                       fontSize: "16px"
                     }}
                   >
-                    {dayTotal.toFixed(2)}
+                    ${dayTotal.toFixed(2)}
                   </span>
                 </div>
 

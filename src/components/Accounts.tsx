@@ -175,7 +175,7 @@ export default function Accounts() {
                                     fontWeight: "bold"
                                 }}
                             >
-                                {Number(account.balance).toFixed(2)}
+                                ${Number(account.balance).toFixed(2)}
                             </span>
                         </div>
 
