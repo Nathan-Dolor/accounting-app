@@ -98,12 +98,7 @@ export default function TransactionsByDay() {
                   }}
                 >
                   <h3 style={{ margin: "0" }}>
-                    {new Date(date).toLocaleDateString("en-US", {
-                      weekday: "short",
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric"
-                    })}
+                    {new Date(date).toISOString().split("T")[0]}
                   </h3>
                   <span
                     style={{
